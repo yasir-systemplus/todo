@@ -1,8 +1,16 @@
 import React, { useState } from "react";
 import { Todo } from "./todo";
 import Modal from "../modal";
+import Mocker from "./mocker";
 
-export default function Column({ todos, onAddTodo, title, type }) {
+export default function Column({
+  todos,
+  length,
+  title,
+  type,
+  onMove,
+  onAddTodo,
+}) {
   const [modal, setModal] = useState(false);
 
   const toggleModal = (key) => {
@@ -10,7 +18,13 @@ export default function Column({ todos, onAddTodo, title, type }) {
   };
 
   const captureDragOver = (ev) => {
-    console.log("Drag Over: ", type);
+    ev.preventDefault();
+  };
+
+  const handleDrop = (ev) => {
+    ev.preventDefault();
+    const id = ev.dataTransfer.getData("id");
+    onMove(id, type);
   };
 
   return (
@@ -25,13 +39,14 @@ export default function Column({ todos, onAddTodo, title, type }) {
       <div
         className="flex-1 bg-gray-100 rounded-sm p-2 dragover"
         onDragOver={captureDragOver}
+        onDrop={handleDrop}
       >
         <header className="mb-2">
           <div className="flex flex-row justify-between items-center">
             <div className="font-semibold">{title}</div>
-            <div className="bg-gray-300 text-gray-500 rounded-lg px-2">
+            <p className="bg-gray-300 text-gray-500 text-sm rounded-lg px-2 py-1/2">
               {todos.length}
-            </div>
+            </p>
           </div>
           <div
             onClick={() => setModal(true)}
@@ -44,6 +59,8 @@ export default function Column({ todos, onAddTodo, title, type }) {
           {todos.map((todo) => (
             <Todo key={todo.id} todo={todo} />
           ))}
+
+          {length > 0 && <Mocker />}
         </div>
       </div>
     </React.Fragment>
