@@ -29,6 +29,8 @@ class Counter extends Component {
    * componentDidCatch()
    */
 
+  // Reference: https://blog.logrocket.com/react-lifecycle-methods-tutorial-examples/#shouldcomponentupdate
+
   /**
    * * Mounting
    * constructor() - 1
@@ -105,6 +107,7 @@ class Counter extends Component {
     console.log("Component did mount: ", this.state.count);
   }
 
+  // Executes each time after rendering to DOM.
   componentDidUpdate(prevProps, prevState) {
     console.log("componentDidUpdate");
   }
