@@ -2,6 +2,7 @@ import Counter from "./counter/counter";
 import DatePractise from "./date";
 import Set from "./sets/Set";
 import Todos from "./todo-app/todos";
+import Table from "./pagination/table";
 
 /**
  ** Working on Life Cycle Hooks
@@ -10,11 +11,17 @@ import Todos from "./todo-app/todos";
  */
 
 function App() {
-  return (
-    <div className="bg-gray-100 flex h-screen justify-center align-middle items-center">
-      <Counter count={1} />
+  const element = (
+    <div className="bg-gray-100 py-6">
+      <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div className="flex flex-col">
+          <Table />
+        </div>
+      </div>
     </div>
   );
+
+  return element;
 }
 
 export default App;
