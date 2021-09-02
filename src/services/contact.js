@@ -2,7 +2,7 @@ import * as faker from "faker";
 
 export const getContacts = () => {
   let contacts = [];
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 37; i++) {
     contacts.push({
       ...faker.name,
       email: faker.internet.email,

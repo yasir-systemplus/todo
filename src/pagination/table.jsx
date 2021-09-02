@@ -1,12 +1,11 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from "react";
 import { getContacts } from "../services/contact";
 import Paginate from "./pagination";
+import { paginate } from "./paginate";
 
 class Table extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { contacts: getContacts(), currentPage: 1 };
-  }
+  state = { contacts: getContacts(), currentPage: 1, pageSize: 8 };
 
   handlePageChange = (p) => {
     this.setState({ ...this.state, currentPage: p });
@@ -21,6 +20,9 @@ class Table extends Component {
   };
 
   render() {
+    const { contacts: allContacts, currentPage, pageSize } = this.state;
+    const paginated = paginate(allContacts, currentPage, pageSize);
+
     return (
       <div className="flex flex-col">
         <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -59,7 +61,7 @@ class Table extends Component {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {this.state.contacts.map((person) => (
+                  {paginated.map((person) => (
                     <tr key={person.email()}>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
@@ -109,9 +111,10 @@ class Table extends Component {
                 </tbody>
               </table>
               <Paginate
-                count={this.state.contacts.length}
-                pageSize={10}
+                count={allContacts.length}
+                pageSize={this.state.pageSize}
                 currentPage={this.state.currentPage}
+                selected={paginated.length}
                 onPageChange={this.handlePageChange}
                 onPrevPage={this.handlePrevPageChange}
                 onNextPage={this.handleNextPageChange}
