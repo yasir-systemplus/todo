@@ -83,6 +83,7 @@ class Counter extends Component {
     console.log("Rendering: Component is mounting to DOM");
     return (
       <React.Fragment>
+        <p>Use console to see the messages. </p>
         <div>{this.state.count}</div>
         <button className="border-2" onClick={this.increase}>
           Increase
@@ -93,7 +94,6 @@ class Counter extends Component {
 
   getSnapshotBeforeUpdate = (prevProps, prevState) => {
     console.log("getSnapshotBeforeUpdate");
-
     return null;
   };
 

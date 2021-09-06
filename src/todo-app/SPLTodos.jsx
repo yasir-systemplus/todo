@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Column from "./components/column";
 
-export default function Todos(props) {
+export default function SPLTodos(props) {
   const [todos, setTodos] = useState([]);
 
   const handleOnAddTodo = (todo) => {
