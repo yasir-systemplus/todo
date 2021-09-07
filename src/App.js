@@ -5,6 +5,7 @@ import Set from "./sets/Set";
 import SPLTodos from "./todo-app/SPLTodos";
 import Table from "./pagination/table";
 import React, { useState } from "react";
+import { Switch, Route, NavLink } from "react-router-dom";
 
 /**
  ** App js is used to configure different projects.
@@ -14,55 +15,22 @@ import React, { useState } from "react";
  */
 
 function App() {
-  const [selector, setSelector] = useState("todos");
-
-  const selectedComponent = () => {
-    switch (selector) {
-      case "todos":
-        return <SPLTodos />;
-      case "table":
-        return <Table />;
-      case "counter":
-        return <Counter />;
-      default:
-        break;
-    }
-  };
-
-  const buttonStyles = (color) => {
-    return `px-5 text-white rounded-sm bg-${color}-400`;
-  };
-
   return (
-    <React.Fragment>
-      <div className="flex flex-row justify-center space-x-10 ">
-        <a
-          className={buttonStyles("red")}
-          onClick={() => {
-            setSelector("todos");
-          }}
-        >
+    <>
+      <div className="flex flex-row justify-center space-x-10">
+        <NavLink exact to="/">
           Todos
-        </a>
-        <a
-          className={buttonStyles("blue")}
-          onClick={() => {
-            setSelector("table");
-          }}
-        >
-          Operations on Table
-        </a>
-        <a
-          className={buttonStyles("green")}
-          onClick={() => {
-            setSelector("counter");
-          }}
-        >
-          Hooks
-        </a>
+        </NavLink>
+        <NavLink to="/table">Table</NavLink>
+        <NavLink to="/hooks">Hooks</NavLink>
       </div>
-      {selectedComponent()}
-    </React.Fragment>
+
+      <Switch>
+        <Route path="/table" component={Table} />
+        <Route path="/hooks" component={Counter} />
+        <Route path="/" exact component={SPLTodos} />
+      </Switch>
+    </>
   );
 }
 

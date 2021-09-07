@@ -73,9 +73,7 @@ class Table extends Component {
       }
     });
 
-    const sortedAsc = _.sortBy(filteredContacts, [
-      this.state.sort.sortBy,
-    ]).reverse();
+    const sortedAsc = _.sortBy(filteredContacts, [this.state.sort.sortBy]);
 
     const sorted =
       this.state.sort.order !== "asc" ? sortedAsc : sortedAsc.reverse();
