@@ -4,6 +4,8 @@ import Tag from "../components/tag";
 import { Dialog, Transition } from "@headlessui/react";
 import randomColor from "../shared";
 
+import { Form, Field, Formik, FieldArray } from "formik";
+
 export default function Modal({ onAddTodo, open, onToggle }) {
   const tagInput = useRef(null);
   const [todo, setTodo] = useState({ title: "", tags: [] });
@@ -83,7 +85,6 @@ export default function Modal({ onAddTodo, open, onToggle }) {
                   <p className="mb-2 font-semibold text-gray-700">Todo</p>
                   <textarea
                     type="text"
-                    name=""
                     placeholder="Type description"
                     className="p-2 mb-5 bg-white border border-gray-200 rounded shadow-sm h-36"
                     onChange={handleTodoDescription}
@@ -91,6 +92,7 @@ export default function Modal({ onAddTodo, open, onToggle }) {
                   <p className="mb-2 font-semibold text-gray-700">Tags</p>
                   <div className="flex flex-row items-center justify-between  bg-white border border-gray-200 rounded shadow-sm">
                     <input
+                      name="tagInput"
                       type="text"
                       className="w-full p-2"
                       ref={tagInput}
