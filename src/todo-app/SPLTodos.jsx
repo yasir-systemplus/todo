@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import Column from "./components/column";
+import useLocalStorage from "./hooks/useLocalStorage";
 
 export default function SPLTodos(props) {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useLocalStorage("todos", []);
 
   const handleOnAddTodo = (todo) => {
     setTodos([...todos, { ...todo, id: Date.now() }]);
@@ -19,8 +20,7 @@ export default function SPLTodos(props) {
 
     setTodos([...updatedTodos]);
   };
-
-  console.log(todos);
+  console.log("Rendering");
   return (
     <React.Fragment>
       <div className="bg-gray-200 min-h-screen ">
@@ -44,6 +44,7 @@ export default function SPLTodos(props) {
               onMove={moveElement}
               length={todos.length}
             />
+
             <Column
               title="🏁 Finished"
               todos={todos.filter((t) => t.type === "finished")}
