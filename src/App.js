@@ -4,7 +4,7 @@ import DatePractise from "./date";
 import Set from "./sets/Set";
 import SPLTodos from "./todo-app/SPLTodos";
 import Table from "./pagination/table";
-import React, { useState } from "react";
+import React from "react";
 import { Switch, Route, NavLink } from "react-router-dom";
 
 /**

@@ -1,26 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Column from "./components/column";
 import useLocalStorage from "./hooks/useLocalStorage";
+import { addTodo, deleteTodo, movedTodo } from "./store/actions";
+import store from "./store/store";
 
-export default function SPLTodos(props) {
+export default function SPLTodos() {
   const [todos, setTodos] = useLocalStorage("todos", []);
 
+  useEffect(() => {
+    const sub = store.subscribe(() => {
+      setTodos(store.getState());
+    });
+
+    return () => {
+      sub();
+    };
+  }, [store.getState()]);
+
   const handleOnAddTodo = (todo) => {
-    setTodos([...todos, { ...todo, id: Date.now() }]);
+    store.dispatch(addTodo({ ...todo, id: Date.now() }));
   };
 
   const moveElement = (id, type) => {
-    const updatedTodos = todos.map((todo) => {
-      if (id == todo.id) {
-        todo.type = type;
-      }
-
-      return todo;
-    });
-
-    setTodos([...updatedTodos]);
+    store.dispatch(movedTodo(id, type));
   };
-  console.log("Rendering");
+
+  const handleOnDelete = (todo) => {
+    store.dispatch(deleteTodo(todo.id));
+  };
+
   return (
     <React.Fragment>
       <div className="bg-gray-200 min-h-screen ">
@@ -35,6 +43,7 @@ export default function SPLTodos(props) {
               type="ideas"
               onMove={moveElement}
               length={todos.length}
+              onDelete={handleOnDelete}
             />
             <Column
               title="👨‍💻 In Progress"
@@ -43,6 +52,7 @@ export default function SPLTodos(props) {
               type="progress"
               onMove={moveElement}
               length={todos.length}
+              onDelete={handleOnDelete}
             />
 
             <Column
@@ -51,6 +61,7 @@ export default function SPLTodos(props) {
               onAddTodo={handleOnAddTodo}
               type="finished"
               onMove={moveElement}
+              onDelete={handleOnDelete}
               length={todos.length}
             />
           </div>

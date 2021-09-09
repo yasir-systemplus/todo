@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Todo } from "./todo";
+import Todo from "./todo";
 import Modal from "../modal";
 import Mocker from "./mocker";
 
@@ -10,6 +10,7 @@ export default function Column({
   type,
   onMove,
   onAddTodo,
+  onDelete,
 }) {
   const [modal, setModal] = useState(false);
 
@@ -57,7 +58,7 @@ export default function Column({
         </header>
         <div>
           {todos.map((todo) => (
-            <Todo key={todo.id} todo={todo} />
+            <Todo key={todo.id} todo={todo} onDelete={() => onDelete(todo)} />
           ))}
 
           {length > 0 && <Mocker />}
