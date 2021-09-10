@@ -15,7 +15,7 @@ export default function SPLTodos() {
     return () => {
       sub();
     };
-  }, [store.getState()]);
+  }, []);
 
   const handleOnAddTodo = (todo) => {
     store.dispatch(addTodo({ ...todo, id: Date.now() }));
