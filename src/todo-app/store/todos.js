@@ -1,4 +1,5 @@
-import { createAction, createReducer, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import { createSelector } from "reselect";
 
 const slice = createSlice({
   name: "todos",
@@ -8,7 +9,7 @@ const slice = createSlice({
       todos.push(action.payload);
     },
     deleteTodo: (todos, action) => {
-      todos = todos.filter((todo) => todo.id != action.payload.id);
+      return todos.filter((todo) => todo.id != action.payload.id);
     },
     moveTodo: (todos, action) => {
       const todo = todos.find((t) => t.id === +action.payload.id);
@@ -16,6 +17,27 @@ const slice = createSlice({
     },
   },
 });
+
+//Memoized Selectors
+export const getInProgress = createSelector(
+  (state) => state,
+  (todos) => todos.filter((t) => t.type === "progress")
+);
+
+export const getFinished = createSelector(
+  (state) => state,
+  (todos) => todos.filter((t) => t.type === "finished")
+);
+
+export const getIdeas = createSelector(
+  (state) => state,
+  (todos) => todos.filter((t) => t.type === "ideas")
+);
+
+export const getAll = createSelector(
+  (state) => state,
+  (todos) => todos
+);
 
 export const { addTodo, deleteTodo, moveTodo } = slice.actions;
 export default slice.reducer;

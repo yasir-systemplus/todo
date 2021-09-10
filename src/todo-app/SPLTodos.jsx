@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Column from "./components/column";
 import useLocalStorage from "./hooks/useLocalStorage";
-import { addTodo, moveTodo, deleteTodo } from "./store/todos";
+import { addTodo, moveTodo, deleteTodo, getAll } from "./store/todos";
 import store from "./store/store";
 
 export default function SPLTodos() {
@@ -9,7 +9,7 @@ export default function SPLTodos() {
 
   useEffect(() => {
     const sub = store.subscribe(() => {
-      setTodos(store.getState());
+      setTodos(getAll(store.getState()));
     });
 
     return () => {
@@ -28,6 +28,18 @@ export default function SPLTodos() {
   const handleOnDelete = (todo) => {
     store.dispatch(deleteTodo({ id: todo.id }));
   };
+
+  const promise = new Promise((resolve) => {
+    setTimeout(() => {
+      resolve("acha yr");
+    }, 2000);
+  });
+
+  //Async Thunk
+  store.dispatch(async (dispatch, getState) => {
+    const messaeg = await promise;
+    console.log(messaeg);
+  });
 
   return (
     <React.Fragment>

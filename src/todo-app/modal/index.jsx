@@ -131,18 +131,16 @@ export default function Modal({ onAddTodo, open, onToggle }) {
 
                               <div className="flex flex-row items-center justify-start flex-wrap space-y-2 mt-3">
                                 {tags.map((t, index) => (
-                                  <div>
-                                    <Tag
-                                      key={index}
-                                      title={t.title}
-                                      color={t.color}
-                                      onDelete={() => remove(index)}
-                                    />
-
+                                  <Tag
+                                    key={index}
+                                    title={t.title}
+                                    color={t.color}
+                                    onDelete={() => remove(index)}
+                                  >
                                     <ErrorMessage
                                       name={`tags.${index}.title`}
                                     />
-                                  </div>
+                                  </Tag>
                                 ))}
                               </div>
                             </React.Fragment>
