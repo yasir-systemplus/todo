@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Column from "./components/column";
 import useLocalStorage from "./hooks/useLocalStorage";
-import { addTodo, deleteTodo, movedTodo } from "./store/actions";
+import { addTodo, moveTodo, deleteTodo } from "./store/todos";
 import store from "./store/store";
 
 export default function SPLTodos() {
@@ -22,11 +22,11 @@ export default function SPLTodos() {
   };
 
   const moveElement = (id, type) => {
-    store.dispatch(movedTodo(id, type));
+    store.dispatch(moveTodo({ id, type }));
   };
 
   const handleOnDelete = (todo) => {
-    store.dispatch(deleteTodo(todo.id));
+    store.dispatch(deleteTodo({ id: todo.id }));
   };
 
   return (
