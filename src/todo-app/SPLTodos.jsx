@@ -1,20 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Column from "./components/column";
-import useLocalStorage from "./hooks/useLocalStorage";
-import { addTodo, moveTodo, deleteTodo, getAll } from "./store/todos";
+// import useLocalStorage from "./hooks/useLocalStorage";
+import { addTodo, moveTodo, deleteTodo, loadAllTodos } from "./store/todos";
 import store from "./store/store";
 
 export default function SPLTodos() {
-  const [todos, setTodos] = useLocalStorage("todos", []);
+  const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    const sub = store.subscribe(() => {
-      setTodos(getAll(store.getState()));
+    console.log("Calling loadAllTodos");
+
+    const unsubscribe = store.subscribe(() => {
+      setTodos(store.getState());
     });
 
-    return () => {
-      sub();
-    };
+    store.dispatch(loadAllTodos());
+
+    return unsubscribe;
   }, []);
 
   const handleOnAddTodo = (todo) => {

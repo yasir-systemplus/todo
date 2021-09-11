@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import { createSlice } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 
@@ -14,6 +15,9 @@ const slice = createSlice({
     moveTodo: (todos, action) => {
       const todo = todos.find((t) => t.id === +action.payload.id);
       todo.type = action.payload.type;
+    },
+    loadAllTodos: (todos, action) => {
+      return todos.concat(action.payload);
     },
   },
 });
@@ -39,5 +43,5 @@ export const getAll = createSelector(
   (todos) => todos
 );
 
-export const { addTodo, deleteTodo, moveTodo } = slice.actions;
+export const { addTodo, deleteTodo, moveTodo, loadAllTodos } = slice.actions;
 export default slice.reducer;
