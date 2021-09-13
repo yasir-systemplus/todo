@@ -1,34 +1,72 @@
+// import useLocalStorage from "./hooks/useLocalStorage";
+import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import Column from "./components/column";
-// import useLocalStorage from "./hooks/useLocalStorage";
-import { addTodo, moveTodo, deleteTodo, loadAllTodos } from "./store/todos";
-import store from "./store/store";
+import {
+  addTodo,
+  moveTodo,
+  deleteTodo,
+  getFinished,
+  getInProgress,
+  getIdeas,
+  loadAllTodos,
+} from "./store/todos";
 
 export default function SPLTodos() {
-  const [todos, setTodos] = useState([]);
+  const dispatch = useDispatch();
+  const finished = useSelector(getFinished);
+  const inProgress = useSelector(getInProgress);
+  const ideas = useSelector(getIdeas);
 
   useEffect(() => {
-    console.log("Calling loadAllTodos");
-
-    const unsubscribe = store.subscribe(() => {
-      setTodos(store.getState());
+    dispatch({
+      type: "apiCall",
+      payload: {
+        url: "/todos",
+        onSuccess: loadAllTodos.type,
+      },
     });
-
-    store.dispatch(loadAllTodos());
-
-    return unsubscribe;
   }, []);
 
   const handleOnAddTodo = (todo) => {
-    store.dispatch(addTodo({ ...todo, id: Date.now() }));
+    //dispatch(addTodo({ ...todo, id: Date.now() }));
+
+    dispatch({
+      type: "apiCall",
+      payload: {
+        url: "/todos",
+        method: "post",
+        data: todo,
+        onSuccess: addTodo.type,
+      },
+    });
   };
 
   const moveElement = (id, type) => {
-    store.dispatch(moveTodo({ id, type }));
+    // dispatch(moveTodo({ id, type }));
+
+    dispatch({
+      type: "apiCall",
+      payload: {
+        url: "/todos/movetodo",
+        method: "patch",
+        data: { id, type },
+        onSuccess: moveTodo.type,
+      },
+    });
   };
 
   const handleOnDelete = (todo) => {
-    store.dispatch(deleteTodo({ id: todo.id }));
+    //dispatch(deleteTodo({ id: todo.id }));
+
+    dispatch({
+      type: "apiCall",
+      payload: {
+        url: "/todos/" + todo.id,
+        method: "delete",
+        onSuccess: deleteTodo.type,
+      },
+    });
   };
 
   const promise = new Promise((resolve) => {
@@ -38,7 +76,7 @@ export default function SPLTodos() {
   });
 
   //Async Thunk
-  store.dispatch(async (dispatch, getState) => {
+  dispatch(async (dispatch, getState) => {
     const messaeg = await promise;
     console.log(messaeg);
   });
@@ -52,31 +90,29 @@ export default function SPLTodos() {
           <div className="flex flex-row space-x-2 mt-5">
             <Column
               title="💡 Ideas"
-              todos={todos.filter((t) => t.type === "ideas")}
+              todos={ideas}
               onAddTodo={handleOnAddTodo}
               type="ideas"
               onMove={moveElement}
-              length={todos.length}
               onDelete={handleOnDelete}
             />
+
             <Column
               title="👨‍💻 In Progress"
-              todos={todos.filter((t) => t.type === "progress")}
+              todos={inProgress}
               onAddTodo={handleOnAddTodo}
               type="progress"
               onMove={moveElement}
-              length={todos.length}
               onDelete={handleOnDelete}
             />
 
             <Column
               title="🏁 Finished"
-              todos={todos.filter((t) => t.type === "finished")}
+              todos={finished}
               onAddTodo={handleOnAddTodo}
               type="finished"
               onMove={moveElement}
               onDelete={handleOnDelete}
-              length={todos.length}
             />
           </div>
         </div>

@@ -49,7 +49,7 @@ export default function Todo({ todo: { title, tags, id }, onDelete }) {
 
       <div className="flex-1 mt-3 space-y-1">
         {tags.map((t) => (
-          <Tag color={t.color} title={t.title} key={t.id} />
+          <Tag color={t.color} title={t.title} key={t._id} />
         ))}
       </div>
     </div>

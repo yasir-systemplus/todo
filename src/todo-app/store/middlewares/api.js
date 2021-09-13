@@ -1,22 +1,29 @@
 import axios from "axios";
 
+const API_BASE = "http://localhost:4000" + "/v1";
+
 const apiCall =
   ({ dispatch }) =>
   (next) =>
   async (action) => {
     if (action.type !== "apiCall") return next(action);
 
-    const { onSuccess, onError, method, data, url } = action.pyload;
+    // next(action);
+
+    const { onSuccess, onError, method, data, url } = action.payload;
 
     try {
       const resp = await axios.request({
-        baseURL: "some_url",
+        baseURL: API_BASE,
         method,
         data,
         url,
       });
 
-      dispatch({ type: onSuccess, payload: resp.data });
+      dispatch({
+        type: onSuccess,
+        payload: resp.data,
+      });
     } catch (error) {
       dispatch({ type: onError, payload: error });
     }

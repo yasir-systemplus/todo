@@ -10,7 +10,7 @@ export default function Tag({ title, color, children, onDelete }) {
       {typeof onDelete == "function" && (
         <XIcon className="h-3 w-3 inline" onClick={onDelete} />
       )}
-      {children && children}
+      {children}
     </div>
   );
 }

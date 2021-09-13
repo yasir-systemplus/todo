@@ -13,14 +13,24 @@ const slice = createSlice({
       return todos.filter((todo) => todo.id != action.payload.id);
     },
     moveTodo: (todos, action) => {
-      const todo = todos.find((t) => t.id === +action.payload.id);
+      const todo = todos.find((t) => t.id == action.payload._id);
       todo.type = action.payload.type;
     },
     loadAllTodos: (todos, action) => {
-      return todos.concat(action.payload);
+      return action.payload;
     },
   },
 });
+
+export const loadTodos = ({ dispatch, getState }) => {
+  dispatch({
+    type: "apiCall",
+    payload: {
+      url: "/todos",
+      onSuccess: loadAllTodos.type,
+    },
+  });
+};
 
 //Memoized Selectors
 export const getInProgress = createSelector(
@@ -44,4 +54,5 @@ export const getAll = createSelector(
 );
 
 export const { addTodo, deleteTodo, moveTodo, loadAllTodos } = slice.actions;
+
 export default slice.reducer;

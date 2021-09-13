@@ -6,7 +6,9 @@ import SPLTodos from "./todo-app/SPLTodos";
 import Table from "./pagination/table";
 import React from "react";
 import { Switch, Route, NavLink } from "react-router-dom";
+import { Provider } from "react-redux";
 
+import store from "./todo-app/store/store";
 /**
  ** App js is used to configure different projects.
  * TODO: Todos project
@@ -28,7 +30,15 @@ function App() {
       <Switch>
         <Route path="/table" component={Table} />
         <Route path="/hooks" component={Counter} />
-        <Route path="/" exact component={SPLTodos} />
+        <Route
+          path="/"
+          exact
+          render={(props) => (
+            <Provider store={store}>
+              <SPLTodos {...props} />
+            </Provider>
+          )}
+        />
       </Switch>
     </>
   );

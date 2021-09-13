@@ -34,9 +34,9 @@ const localStorageMid =
       saveLocalStorage(updated);
     }
 
-    if (action.type === loadAllTodos.type) {
-      action.payload = getLocalStorage();
-    }
+    // if (action.type === loadAllTodos.type) {
+    //   action.payload = getLocalStorage();
+    // }
 
     next(action);
   };

@@ -5,7 +5,6 @@ import Mocker from "./mocker";
 
 export default function Column({
   todos,
-  length,
   title,
   type,
   onMove,
@@ -61,7 +60,7 @@ export default function Column({
             <Todo key={todo.id} todo={todo} onDelete={() => onDelete(todo)} />
           ))}
 
-          {length > 0 && <Mocker />}
+          <Mocker />
         </div>
       </div>
     </React.Fragment>
